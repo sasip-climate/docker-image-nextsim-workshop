@@ -15,10 +15,13 @@ RUN . /opt/spack-environment/activate.sh && cmake -DENABLE_MPI=$mpi -DENABLE_XIO
 RUN git clone -b develop https://github.com/nansencenter/NEDAS.git /NEDAS
 
 ##install libraries with mamba
-FROM mambaorg/micromamba:1.5.8 as micromamba
+FROM mambaorg/micromamba:2.0.8 as micromamba
 
 USER root
 
+# if your image defaults to a non-root user, then you may want to make the
+# next 3 ARG commands match the values in your image. You can get the values
+# by running: docker run --rm -it my/image id -a
 ARG MAMBA_USER=mambauser
 ARG MAMBA_USER_ID=57439
 ARG MAMBA_USER_GID=57439
@@ -40,12 +43,9 @@ USER $MAMBA_USER
 
 SHELL ["/usr/local/bin/_dockerfile_shell.sh"]
 
-ENTRYPOINT ["/usr/local/bin/_entrypoint.sh"]
-CMD ["/bin/bash"]
-
-COPY environment.yml /usr/local/bin/environment.yml
-WORKDIR /usr/local/bin
-RUN micromamba install --yes --name base -f environment.yml
+COPY --chown=$MAMBA_USER:$MAMBA_USER environment.yml /tmp/environment.yml
+RUN micromamba install -y -n base -f /tmp/environment.yml && \
+    micromamba clean --all --yes
 
 ##install other utilities    
 USER root
