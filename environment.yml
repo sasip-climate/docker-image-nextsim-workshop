@@ -23,7 +23,6 @@ dependencies:
   - cmocean=3.0.3
   - cartopy=0.21.1
   - pyproj=3.5.0
-  - pyshp=3.2.1
+  - pyshp=2.3.1
   - PyYAML=6.0.1
-  - pyFFTW
-  - mpi4py
+  - mpi4py=4.0.3
