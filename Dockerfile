@@ -69,12 +69,6 @@ RUN apt-get -y -q update \
 	git \
 && rm -rf /var/lib/apt/lists/*
 
-
-###run notebook
-WORKDIR /nextsim-workshop
-
-COPY /nextsimdg/* /nextsim-workshop/
-
 ENTRYPOINT [ "/entrypoint.sh" ]
 
 CMD [ "jupyter", "lab", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--allow-root" ]
