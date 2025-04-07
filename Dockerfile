@@ -31,17 +31,16 @@ ENV MAMBA_EXE="/bin/micromamba"
 
 COPY --from=micromamba "$MAMBA_EXE" "$MAMBA_EXE"
 COPY --from=micromamba /usr/local/bin/_activate_current_env.sh /tmp/_activate_current_env.sh
-COPY --from=micromamba /usr/local/bin/_dockerfile_shell.sh /tmp/_dockerfile_shell.sh
-COPY --from=micromamba /usr/local/bin/_entrypoint.sh /tmp/_entrypoint.sh
-COPY --from=micromamba /usr/local/bin/_dockerfile_initialize_user_accounts.sh /tmp/_dockerfile_initialize_user_accounts.sh
-COPY --from=micromamba /usr/local/bin/_dockerfile_setup_root_prefix.sh /tmp/_dockerfile_setup_root_prefix.sh
 
-RUN /tmp/_dockerfile_initialize_user_accounts.sh && \
-    /tmp/_dockerfile_setup_root_prefix.sh
+RUN echo "source /usr/local/bin/_activate_current_env.sh" >> /etc/skel/.bashrc && \
+    groupadd -g "${MAMBA_USER_GID}" "${MAMBA_USER}" && \
+    useradd -u "${MAMBA_USER_ID}" -g "${MAMBA_USER_GID}" -ms /bin/bash "${MAMBA_USER}" && \
+    echo "${MAMBA_USER}" > "/etc/arg_mamba_user" && \
+    mkdir -p "$MAMBA_ROOT_PREFIX/conda-meta" && \
+    chmod -R a+rwx "$MAMBA_ROOT_PREFIX" "/home" "/etc/arg_mamba_user" && \
+    :
 
 USER $MAMBA_USER
-
-SHELL ["/tmp/_dockerfile_shell.sh"]
 
 COPY --chown=$MAMBA_USER:$MAMBA_USER environment.yml /tmp/environment.yml
 RUN micromamba install -y -n base -f /tmp/environment.yml && \
