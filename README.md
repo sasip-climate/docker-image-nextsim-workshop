@@ -8,6 +8,6 @@ Step 1: download the notebooks and test data from /summer/sasip/nextsim-workshop
 
 Step 2: Build the docker image: `docker build -t nextsim-workshop:latest .`
 
-Step 3: Start the container: `docker run --rm -v nextsim-workshop:/nextsim-workshop -p 8888:8888 nextsim-workshop:latest`
+Step 3: Start the container: `docker run --rm -v /aboslute_path_to/nextsim-workshop2025:/nextsim-workshop -p 8888:8888 nextsim-workshop:latest`
 
 Step 4: Open notebook on local browser: `localhost:8888` with the token given at runtime by the container

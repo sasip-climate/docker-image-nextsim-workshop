@@ -6,9 +6,9 @@ FROM mambaorg/micromamba:2.0.8 as micromamba
 FROM ghcr.io/nextsimhub/nextsimdg-dev-env:latest
 
 ## build nextsimdg model
-RUN git clone https://github.com/nextsimhub/nextsimdg.git /nextsimdg
+RUN git clone https://github.com/nextsimhub/nextsimdg.git /home/nextsimdg
 
-WORKDIR /nextsimdg/build
+WORKDIR /home/nextsimdg/build
 
 ARG mpi=OFF
 ARG xios=OFF
@@ -17,7 +17,7 @@ ARG jobs=1
 RUN . /opt/spack-environment/activate.sh && cmake -DENABLE_MPI=$mpi -DENABLE_XIOS=$xios -Dxios_DIR=/xios .. && make -j $jobs
 
 ##install nedas
-RUN git clone -b develop https://github.com/nansencenter/NEDAS.git /NEDAS
+RUN git clone -b develop https://github.com/nansencenter/NEDAS.git /home/NEDAS
 
 ##install libraries with mamba
 
@@ -69,6 +69,6 @@ RUN apt-get -y -q update \
 	git \
 && rm -rf /var/lib/apt/lists/*
 
-ENTRYPOINT [ "/entrypoint.sh" ]
+WORKDIR /home
 
 CMD [ "jupyter", "lab", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--allow-root" ]
