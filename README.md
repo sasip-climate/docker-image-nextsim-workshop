@@ -2,12 +2,14 @@
 
 Dockerfile and requirements for a docker image to be used at the nextsim workshop
 
-The docker image is automatically generated with repo2docker following [2i2c tutorial](https://docs.2i2c.org/admin/howto/environment/hub-user-image-template-guide/)
+The docker image is automatically generated with repo2docker following [2i2c tutorial](https://docs.2i2c.org/admin/howto/environment/hub-user-image-template-guide/) when a pull request is merged
 
-Step 1: download the notebooks and test data from /summer/sasip/nextsim-workshop to your local disk
+So if you want to modify, please open a branch or a fork first, test the docker image locally before opening a pull request
 
-Step 2: Build the docker image: `docker build -t nextsim-workshop:latest .`
+To test it locally you need to :
 
-Step 3: Start the container: `docker run --rm -v /aboslute_path_to/nextsim-workshop2025:/nextsim-workshop -p 8888:8888 nextsim-workshop:latest`
-
-Step 4: Open notebook on local browser: `localhost:8888` with the token given at runtime by the container
+ - Build the docker image: `docker build -t nextsim-workshop:latest .`
+ - Create a local dir : nextsim-workshop
+ - Get the notebooks from the github repo : `git clone git@github.com:sasip-climate/notebooks-nextsim-workshop2025.git` in nextsim-workshop
+ - Start the container: `docker run --rm -v /absolute_path_to/nextsim-workshop:/nextsim-workshop -p 8888:8888 nextsim-workshop:latest`
+ - Open the jupyterlab on local browser: `http://127.0.0.1:8888/lab?token=...` with the token given at runtime by the container, the notebooks will be in notebooks-nextsim-workshop2025
