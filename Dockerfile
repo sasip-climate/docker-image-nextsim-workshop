@@ -14,7 +14,7 @@ ARG mpi=OFF
 ARG xios=OFF
 ARG jobs=1
 
-RUN . /opt/spack-environment/activate.sh && cmake -DENABLE_MPI=$mpi -DENABLE_XIOS=$xios -Dxios_DIR=/xios .. && make -j $jobs
+RUN . /opt/spack-environment/activate.sh && cmake -DCMAKE_BUILD_TYPE=Release -DENABLE_MPI=$mpi -DENABLE_XIOS=$xios -Dxios_DIR=/xios .. && make -j $jobs
 
 ##install nedas
 RUN git clone -b develop https://github.com/nansencenter/NEDAS.git /home/NEDAS
