@@ -29,6 +29,7 @@ jobs:
     - name: Build the image and push to quay.io if not a pull request
       uses: jupyterhub/repo2docker-action@master
       with:
+        platforms: linux/amd64,linux/arm64
         # Don't push the image during a PR build
         NO_PUSH: "${{ github.event_name == 'pull_request' }}"
         # Make sure username & password/token pair matches your registry credentials
