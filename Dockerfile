@@ -5,9 +5,8 @@ FROM mambaorg/micromamba:2.0.8 AS micromamba
 FROM ghcr.io/nextsimhub/nextsimdg-dev-env:latest
 
 ## build nextsimdg model
-RUN git clone https://github.com/nextsimhub/nextsimdg.git /home/nextsimdg
+RUN git clone -b issue375_polynya_working https://github.com/nextsimhub/nextsimdg.git /home/nextsimdg
 WORKDIR /home/nextsimdg
-RUN git checkout 82947a0b750d30e975dddefee806e1c1706ac32e
 
 WORKDIR /home/nextsimdg/build
 
