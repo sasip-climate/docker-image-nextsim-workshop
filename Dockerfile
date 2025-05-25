@@ -6,7 +6,6 @@ FROM ghcr.io/nextsimhub/nextsimdg-dev-env:latest
 
 ## build nextsimdg model
 RUN git clone -b issue375_polynya_working https://github.com/nextsimhub/nextsimdg.git /home/nextsimdg
-WORKDIR /home/nextsimdg
 
 WORKDIR /home/nextsimdg/build
 
@@ -14,7 +13,7 @@ ARG mpi=OFF
 ARG xios=OFF
 ARG jobs=1
 
-RUN . /opt/spack-environment/activate.sh && cmake -DCMAKE_BUILD_TYPE=Release -DENABLE_MPI=$mpi -DENABLE_XIOS=$xios -Dxios_DIR=/xios .. && make -j $jobs
+RUN . /opt/spack-environment/activate.sh && cmake -DCMAKE_BUILD_TYPE=Release -DWITH_THREADS=ON -DENABLE_MPI=$mpi -DENABLE_XIOS=$xios -Dxios_DIR=/xios .. && make -j $jobs
 
 ##install libraries with mamba
 USER root
