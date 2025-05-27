@@ -1,12 +1,11 @@
 # Micromamba container
-
-FROM mambaorg/micromamba:2.0.8 as micromamba
+FROM mambaorg/micromamba:2.0.8 AS micromamba
 
 # Final container
 FROM ghcr.io/nextsimhub/nextsimdg-dev-env:latest
 
 ## build nextsimdg model
-RUN git clone https://github.com/nextsimhub/nextsimdg.git /home/nextsimdg
+RUN git clone -b workshop_brown https://github.com/nextsimhub/nextsimdg.git /home/nextsimdg
 
 WORKDIR /home/nextsimdg/build
 
@@ -14,13 +13,9 @@ ARG mpi=OFF
 ARG xios=OFF
 ARG jobs=1
 
-RUN . /opt/spack-environment/activate.sh && cmake -DCMAKE_BUILD_TYPE=Release -DENABLE_MPI=$mpi -DENABLE_XIOS=$xios -Dxios_DIR=/xios .. && make -j $jobs
-
-##install nedas
-RUN git clone -b develop https://github.com/nansencenter/NEDAS.git /home/NEDAS
+RUN . /opt/spack-environment/activate.sh && cmake -DCMAKE_BUILD_TYPE=Release -DWITH_THREADS=ON -DENABLE_MPI=$mpi -DENABLE_XIOS=$xios -Dxios_DIR=/xios .. && make -j $jobs
 
 ##install libraries with mamba
-
 USER root
 
 ARG MAMBA_USER=mambauser
@@ -45,7 +40,6 @@ USER $MAMBA_USER
 SHELL ["/usr/local/bin/_dockerfile_shell.sh"]
 
 ENTRYPOINT ["/usr/local/bin/_entrypoint.sh"]
-CMD ["/bin/bash"]
 
 COPY --chown=$MAMBA_USER:$MAMBA_USER environment.yml /tmp/environment.yml
 RUN micromamba install -y -n base -f /tmp/environment.yml && \
@@ -62,6 +56,7 @@ RUN apt-get -y -q update \
 	libboost-log1.74 \
 	libboost-program-options1.74 \
 	libeigen3-dev \
+    mpich libmpich-dev \
 	netcdf-bin \
         vim \
 	wget \
