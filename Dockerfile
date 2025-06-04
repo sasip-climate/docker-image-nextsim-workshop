@@ -67,11 +67,16 @@ RUN apt-get -y -q update \
 	git \
 && rm -rf /var/lib/apt/lists/*
 
+## Some NEDAS installatin
 WORKDIR /home/NEDAS
 RUN micromamba run -n base pip install -e .
 ENV UCX_LOG_LEVEL=error
 
+## Retrieve the data
 WORKDIR /home
+RUN wget https://ige-meom-opendap.univ-grenoble-alpes.fr/thredds/fileServer/meomopendap/extract/SASIP/data-nextsim-workshop2025.tar
+RUN tar -xvf data-nextsim-workshop2025.tar
+RUN rm data-nextsim-workshop2025.tar
 
 EXPOSE 8888
 
