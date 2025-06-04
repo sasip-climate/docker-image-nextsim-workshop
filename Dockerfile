@@ -15,6 +15,9 @@ ARG jobs=1
 
 RUN . /opt/spack-environment/activate.sh && cmake -DCMAKE_BUILD_TYPE=Release -DWITH_THREADS=ON -DENABLE_MPI=$mpi -DENABLE_XIOS=$xios -Dxios_DIR=/xios .. && make -j $jobs
 
+## install NEDAS
+RUN git clone -b develop https://github.com/nansencenter/NEDAS /home/NEDAS
+
 ##install libraries with mamba
 USER root
 
@@ -45,7 +48,7 @@ COPY --chown=$MAMBA_USER:$MAMBA_USER environment.yml /tmp/environment.yml
 RUN micromamba install -y -n base -f /tmp/environment.yml && \
     micromamba clean --all --yes
 
-##install other utilities    
+##install other utilities
 USER root
 
 RUN apt-get -y -q update \
@@ -63,6 +66,10 @@ RUN apt-get -y -q update \
  	cmake \
 	git \
 && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /home/NEDAS
+RUN micromamba run -n base pip install -e .
+ENV UCX_LOG_LEVEL=error
 
 WORKDIR /home
 
