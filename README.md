@@ -13,3 +13,5 @@ To test it locally you need to :
  - Get the notebooks from the github repo : `git clone git@github.com:sasip-climate/notebooks-nextsim-workshop2025.git` in nextsim-workshop
  - Start the container: `docker run --rm -v /absolute_path_to/nextsim-workshop:/home/nextsim-workshop -p 8888:8888 nextsim-workshop:latest`
  - Open the jupyterlab on local browser: `http://127.0.0.1:8888/lab?token=...` with the token given at runtime by the container, the notebooks will be in notebooks-nextsim-workshop2025
+
+edit to trigger the generation of image, new data is available 
