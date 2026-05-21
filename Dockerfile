@@ -5,7 +5,9 @@ FROM mambaorg/micromamba:2.0.8 AS micromamba
 FROM ghcr.io/nextsimhub/nextsimdg-dev-env:latest
 
 ## build nextsimdg model
-RUN git clone -b workshop_brown https://github.com/nextsimhub/nextsimdg.git /home/nextsimdg
+RUN git clone -b develop https://github.com/nextsimhub/nextsimdg.git /home/nextsimdg
+WORKDIR /home/nextsimdg
+RUN git checkout e3a4d14
 
 WORKDIR /home/nextsimdg/build
 
