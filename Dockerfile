@@ -76,9 +76,11 @@ ENV UCX_LOG_LEVEL=error
 
 ## Retrieve the data
 WORKDIR /home
-RUN wget https://ige-meom-opendap.univ-grenoble-alpes.fr/thredds/fileServer/meomopendap/extract/SASIP/data-nextsim-workshop2025.tar
-RUN tar -xvf data-nextsim-workshop2025.tar
+RUN wget https://ige-meom-opendap.univ-grenoble-alpes.fr/thredds/fileServer/meomopendap/extract/SASIP/data-nextsim-workshop2025_update2026.tar
+RUN tar -xvf data-nextsim-workshop2025_update2026.tar
+RUN cp -r data-nextsim-workshop2025_update2026 data-nextsim-workshop2025
 RUN rm data-nextsim-workshop2025.tar
+RUN rm -r data-nextsim-workshop2025_update2026
 
 EXPOSE 8888
 
