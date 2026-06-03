@@ -71,7 +71,7 @@ RUN apt-get -y -q update \
 
 ## Some NEDAS installatin
 WORKDIR /home/NEDAS
-RUN git ckeckout tags/workshop_brown
+RUN git checkout tags/workshop_brown
 RUN micromamba run -n base pip install -e .
 ENV UCX_LOG_LEVEL=error
 
