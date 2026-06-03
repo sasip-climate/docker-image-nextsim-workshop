@@ -18,7 +18,7 @@ ARG jobs=1
 RUN . /opt/spack-environment/activate.sh && cmake -DCMAKE_BUILD_TYPE=Release -DWITH_THREADS=ON -DENABLE_MPI=$mpi -DENABLE_XIOS=$xios -Dxios_DIR=/xios .. && make -j $jobs
 
 ## install NEDAS
-RUN git clone https://github.com/nansencenter/NEDAS /home/NEDAS
+RUN git clone -b workshop_brown https://github.com/nansencenter/NEDAS /home/NEDAS
 
 ##install libraries with mamba
 USER root
